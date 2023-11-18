@@ -1,34 +1,23 @@
 package com.blaze;
 
-import io.vertx.core.Context;
-import io.vertx.core.Promise;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
-
-public class feal4 implements Verticle {
-
-    @Override
-    public Vertx getVertx() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getVertx'");
-    }
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Handler;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
+public class feal4 extends AbstractVerticle {
 
     @Override
-    public void init(Vertx vertx, Context context) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'init'");
+    public void start() throws Exception {
+        HttpServer server = vertx.createHttpServer();
+        Router router = Router.router(vertx);
+        router.route("/decrypt").handler(decrypt());
+        server.requestHandler(router).listen(8080);
     }
 
-    @Override
-    public void start(Promise<Void> startPromise) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
+    private Handler<RoutingContext> decrypt() {
+       return null;
     }
-
-    @Override
-    public void stop(Promise<Void> stopPromise) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stop'");
-    }
-
 }
