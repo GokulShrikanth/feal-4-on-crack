@@ -6,13 +6,14 @@ public class feal4 extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         data input = ReadInputs.inputs();
-        System.out.println("Starting the decyption");
+        System.out.println("Starting the decryption");
 
         for(int k1=0; k1<4096; k1++) {
             int keyTilda = solver.get12BitKeyForInnerBytes(k1);
             int firstA1 = solver.calcConstInnerBytesk0(0, keyTilda, input);
 
             for(int w1=1; w1<data.pairs; w1++) {
+                System.out.println("running loop for value  " + w1);
                 if(firstA1 != solver.calcConstInnerBytesk0(w1, keyTilda, input))
                     break;
 
