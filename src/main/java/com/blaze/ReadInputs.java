@@ -8,7 +8,7 @@ import java.io.IOException;
 public class ReadInputs {
     static data input = data.createData();
     public static data inputs() throws IOException, FileNotFoundException {
-        System.out.println("Reading data from the file, known_geoff.txt");
+        System.out.println("Reading data from the file, known_input.txt");
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("known_input.txt"))) {
             int count = 0;
             boolean isPlainText = true;
