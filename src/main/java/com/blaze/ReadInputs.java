@@ -29,9 +29,11 @@ public class ReadInputs {
         }
         catch (FileNotFoundException e) {
             System.out.println("FileNotFoundException Occured :" + e.getMessage());
+            System.exit(0);
         }
         catch (Exception e) {
             System.out.println("An Exception Occured :" + e.getMessage());
+            System.exit(0);
         }
         return input;
     }

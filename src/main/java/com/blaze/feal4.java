@@ -1,13 +1,6 @@
 package com.blaze;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServer;
-import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
-import com.blaze.solver;
 public class feal4 extends AbstractVerticle {
 
     @Override
@@ -33,14 +26,11 @@ public class feal4 extends AbstractVerticle {
                                 break;
 
                             if(w2 == data.pairs-1)
-                            solver.solveForK1(key0);
+                            solver.solveForK1(key0, input);
                         }
                     }
                 }
             }
         }
-    }
-
-    private void decrypt() {
     }
 }
