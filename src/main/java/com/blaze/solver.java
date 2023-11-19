@@ -138,6 +138,32 @@ public class solver {
         return a1^a2;
     }
 
+    static int calcConstInnerBytesk3(int wordIndex, int key, int k0, int k1, int k2, data input) {
+        splitPairs(wordIndex, input);
+        int a1 = getBit(input.L0^input.L4^input.R4, 5)^getBit(input.L0^input.L4^input.R4, 13)^getBit(input.L0^input.L4^input.R4, 21);
+        int a2 = getBit(input.L0^input.R0^input.L4, 15);
+        int y0 = f(input.L0^input.R0^k0);
+        int y1 = f(input.L0^y0^k1);
+        int y2 = f(input.L0^input.R0^y1^k2);
+        int a3 = getBit(f(input.L0^y0^y2^key), 15);
+
+        return a1^a2^a3;
+    }
+
+
+    private static int calConstOutteBytesk3(int wordIndex, int k0, int k1, int k2, int k3, data input) {
+        splitPairs(wordIndex, input);
+        int a1 = getBit(input.L0^input.L4^input.R4, 13);
+        int a2 = getBit(input.L0^input.R0^input.L4, 7)^getBit(input.L0^input.R0^input.L4, 15)^getBit(input.L0^input.R0^input.L4, 23)^getBit(input.L0^input.R0^input.L4, 31);
+        int y0 = f(input.L0^input.R0^k0);
+        int y1 = f(input.L0^y0^k1);
+        int y2 = f(input.L0^input.R0^y1^k2);
+        int y3 = f(input.L0^y0^y2^k3);
+        int a3 = getBit(y3, 7)^getBit(y3, 15)^getBit(y3, 23)^getBit(y3, 31);
+
+        return a1^a2^a3;
+    }
+
     public static void solveForK1(int k, data input) {
         for(int k1=0; k1<4096; k1++) {
             int key_tilda = get12BitKeyForInnerBytes(k1);
@@ -193,6 +219,69 @@ public class solver {
     }
 
     private static void solveForK3(int key0, int key1, int key2, data input) {
+        for(int k1=0; k1<4096; k1++) {
+            int key_tilda = get12BitKeyForInnerBytes(k1);
+            int first_a1 = calcConstInnerBytesk3(0, key_tilda, key0, key1, key2, input);
+
+            for(int w1=1; w1<data.pairs; w1++) {
+                if(first_a1 != calcConstInnerBytesk3(w1, key_tilda,  key0, key1, key2, input))
+                    break;
+
+                if(w1 == data.pairs-1) {
+                    for(int k2=0; k2<1048576; k2++) {
+                        int key3 = generate20BitKeyForOutterBytes(k2, key_tilda);
+                        int first_a2 = calConstOutteBytesk3(0, key0, key1, key2, key3, input);
+
+                        for(int w2=1; w2<data.pairs; w2++) {
+                            if(first_a2 != calConstOutteBytesk3(w2, key0, key1, key2, key3, input))
+                                break;
+
+                            if(w2 == data.pairs-1)
+                                validate(key0, key1, key2, key3, input);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void validate(int key0, int key1, int key2, int key3, data input) {
+        int y0 = f(input.L0^input.R0^key0);
+        int y1 = f(input.L0^y0^key1);
+        int y2 = f(input.L0^input.R0^y1^key2);
+        int y3 = f(input.L0^y0^y2^key3);
+
+        key0 = Integer.reverseBytes(key0);
+        key1 = Integer.reverseBytes(key1);
+        key2 = Integer.reverseBytes(key2);
+        key3 = Integer.reverseBytes(key3);
+        int key4 = Integer.reverseBytes(input.L0^input.R0^y1^y3^input.L4);
+        int key5 = Integer.reverseBytes(input.R0^y1^y3^y0^y2^input.R4);
+
+        int key[] = {key0, key1, key2, key3, key4, key5};
+        byte[] data1 = new byte[8];
+
+        for(int w=0; w<data.pairs; w++) {
+            for (int i=0;i<8;i++)
+                data1[i] = (byte)(Integer.parseInt(input.cyphertext[w].substring(i * 2, (i * 2) + 2),16)&255);
+
+            FealLinear.decrypt(data1, key);
+
+            StringBuilder sb = new StringBuilder(data1.length * 2);
+            for(byte b: data1)
+                sb.append(String.format("%02x", b));
+
+            if(!input.plaintext[w].equals(sb.toString()))
+                return;
+        }
+
+        System.out.print("K0 0x" + Integer.toHexString(key0));
+        System.out.print("\tK1 0x" + Integer.toHexString(key1));
+        System.out.print("\tK2 0x" + Integer.toHexString(key2));
+        System.out.print("\tK3 0x" + Integer.toHexString(key3));
+        System.out.print("\tK4 0x" + Integer.toHexString(key4));
+        System.out.println("\tK5 0x" + Integer.toHexString(key5));
+        System.out.println("************ Profit ************");
     }
 
 }
