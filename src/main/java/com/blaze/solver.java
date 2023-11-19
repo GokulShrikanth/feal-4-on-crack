@@ -182,8 +182,10 @@ public class solver {
                             if(first_a2 != calcConstOutteBytesk1(w2, k, key1, input))
                                 break;
 
-                            if(w2 == data.pairs-1)
+                            if(w2 == data.pairs-1){
+                                System.out.println("solved k1 moving to k2");
                                 solveForK2(k, key1, input);
+                            }
                         }
                     }
                 }
@@ -209,8 +211,10 @@ public class solver {
                             if(first_a2 != calcConstOutteBytesk2(w2, key0, key1, key2, input))
                                 break;
 
-                            if(w2 == data.pairs-1)
+                            if(w2 == data.pairs-1){
+                                System.out.println("solved k2 moving to k3");
                                 solveForK3(key0, key1, key2, input);
+                            }
                         }
                     }
                 }
@@ -236,8 +240,10 @@ public class solver {
                             if(first_a2 != calConstOutteBytesk3(w2, key0, key1, key2, key3, input))
                                 break;
 
-                            if(w2 == data.pairs-1)
+                            if(w2 == data.pairs-1){
+                                System.out.println("solved k3 moving to validate the keys");
                                 validate(key0, key1, key2, key3, input);
+                            }
                         }
                     }
                 }
