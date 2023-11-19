@@ -2,7 +2,7 @@ package com.blaze;
 
 public class data {
 
-    private static int pairs = 200;
+    public static int pairs = 200;
     public data data;
     public int L0, R0, L4, R4;
     public String plaintext[] = new String[pairs];
